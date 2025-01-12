@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="MyBlog - A platform to share your thoughts and ideas.">
+  <meta name="keywords" content="blog, notes, ideas, thoughts, MyBlog">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="stylesheet" href="style.css">
+  <!-- Add this in the <head> section of your HTML -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+  <title>MyBlog</title>
+
+  <style>
+    /* Conditional Rendering */
+    .page {
+      display: none;
+    }
+    .page.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header Section -->
+  <header>
+    <nav>
+      <div class="container">
+        <!-- Logo with Animation -->
+        <a href="#" class="logo" aria-label="MyBlog">
+          <span>MyBlog</span>
+        </a>
+
+        <!-- Nav Links -->
+        <div class="nav-links" id="navLinks">
+          <a href="#" id="homeLink" aria-label="Home">Home</a>
+          <a href="#" id="createLink" aria-label="Unleash Ideas">Unleash Ideas</a>
+          <a href="#" id="notesLink" aria-label="Take Notes">Take Notes</a>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="search-bar">
+          <input type="text" id="searchInput" placeholder="Search blogs or notes..." aria-label="Search">
+          <button id="searchButton" aria-label="Search">🔍</button>
+        </div>
+
+        <!-- Dark Mode Toggle -->
+        <div class="toggle-switch">
+          <label for="darkModeToggle" class="switch-label">
+            <input type="checkbox" id="darkModeToggle" class="checkbox">
+            <span class="slider"></span>
+          </label>
+        </div>
+        <!-- Hamburger Menu for Mobile -->
+        <button id="hamburgerMenu" aria-label="Menu">☰</button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Home Page -->
+  <main id="homePage" class="page active">
+    <!-- Hero Section -->
+    <header class="hero">
+      <div class="container">
+        <h1>Write Freely, Inspire Boldly</h1>
+        <p>Join a Community of Creative Minds.</p>
+        <a href="#" id="createBlogBtn" class="btn" aria-label="Create Blog">Unleash Ideas</a>
+      </div>
+    </header>
+
+    <!-- Featured Blogs Section -->
+    <section id="blogs" class="featured-blogs">
+      <div class="container">
+        <h2>Trending Tales</h2>
+        <div class="blog-grid" id="featuredBlogs">
+          <!-- Featured blogs will be dynamically added here -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Create Blog Page -->
+  <div id="createPage" class="page">
+    <section class="form-container">
+      <h2>Unleash Your Ideas</h2>
+      <form id="blogForm">
+        <input type="text" id="blogTitle" placeholder="Blog Title" required aria-label="Blog Title">
+        
+        <!-- Formatting Toolbar -->
+        <div class="formatting-tools">
+          <!-- Text Formatting -->
+          <div class="tool-group">
+            <button type="button" onclick="formatText('bold')" title="Bold"><b>B</b></button>
+            <button type="button" onclick="formatText('italic')" title="Italic"><i>I</i></button>
+            <button type="button" onclick="formatText('underline')" title="Underline"><u>U</u></button>
+            <button type="button" onclick="formatText('strikethrough')" title="Strikethrough"><s>S</s></button>
+          </div>
+        
+          <!-- Headings Dropdown -->
+          <div class="tool-group">
+            <select onchange="formatText(this.value)">
+              <option value="" disabled selected>Headings</option>
+              <option value="h1">H1</option>
+              <option value="h2">H2</option>
+              <option value="h3">H3</option>
+            </select>
+          </div>
+        
+          <!-- Lists Dropdown -->
+          <div class="tool-group">
+            <select onchange="formatText(this.value)">
+              <option value="" disabled selected>Lists</option>
+              <option value="ul">Unordered List</option>
+              <option value="ol">Ordered List</option>
+            </select>
+          </div>
+        
+          <!-- Alignment Buttons -->
+          <div class="tool-group">
+            <button type="button" onclick="formatText('justifyLeft')" title="Align Left">⬅️</button>
+            <button type="button" onclick="formatText('justifyCenter')" title="Align Center">🔘</button>
+            <button type="button" onclick="formatText('justifyRight')" title="Align Right">➡️</button>
+          </div>
+        
+          <!-- Media Buttons -->
+          <div class="tool-group">
+            <button type="button" onclick="uploadImage()" title="Upload Image">📷</button>
+            <button type="button" onclick="insertLink()" title="Insert Link">🔗</button>
+          </div>
+        
+          <!-- Undo/Redo Buttons -->
+          <div class="tool-group">
+            <button type="button" onclick="document.execCommand('undo')" title="Undo">↩️</button>
+            <button type="button" onclick="document.execCommand('redo')" title="Redo">↪️</button>
+          </div>
+        
+          <!-- Code Formatting -->
+          <div class="tool-group">
+            <button type="button" onclick="formatText('code')" title="Code"><code>&lt;/&gt;</code></button>
+          </div>
+        </div>
+
+        <!-- Contenteditable Div for Blog Content -->
+        <div id="blogContent" contenteditable="true" placeholder="Write your blog here..." class="editable-div" aria-label="Blog Content"></div>
+
+        <input type="text" id="blogCategories" placeholder="Enter categories (comma separated)" required aria-label="Blog Categories">
+        <button type="button" id="previewButton">Preview</button>
+        <button type="submit" aria-label="Publish Blog">Publish Blog</button>
+      </form>
+      <div id="previewSection" style="display: none; border: 1px solid #ccc; padding: 10px; margin-top: 20px;"></div>
+    </section>
+  </div>
+
+  <!-- Take Notes Page -->
+  <div id="notesPage" class="page">
+    <section id="notes" class="notes-section">
+      <div class="container">
+        <h2>Your Notes</h2>
+        <!-- Note Creation Form -->
+        <form id="noteForm">
+          <!-- Formatting Toolbar -->
+          <div class="formatting-tools">
+            <button type="button" onclick="formatNoteText('bold')" title="Bold"><b>B</b></button>
+            <button type="button" onclick="formatNoteText('italic')" title="Italic"><i>I</i></button>
+            <button type="button" onclick="formatNoteText('underline')" title="Underline"><u>U</u></button>
+            <button type="button" onclick="formatNoteText('insertUnorderedList')" title="Bullet List">&#8226;</button>
+            <button type="button" onclick="formatNoteText('insertOrderedList')" title="Numbered List">1.</button>
+            <button type="button" onclick="insertNoteLink()" title="Insert Link">🔗</button>
+            <input type="color" id="noteColor" title="Choose Note Color">
+          </div>
+          <!-- Note Content -->
+          <div id="noteContent" contenteditable="true" placeholder="Write your note here..." class="editable-div"></div>
+          <!-- Note Category/Tags -->
+          <input type="text" id="noteTags" placeholder="Enter tags (comma separated)">
+          <!-- Save Button -->
+          <button type="submit" aria-label="Save Note">Save Note</button>
+        </form>
+        <!-- Notes List -->
+        <div class="notes-list" id="notesList">
+          <!-- Notes will be dynamically added here -->
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2023 MyBlog. All rights reserved.</p>
+    </div>
+  </footer>
+<script src="./script.js"></script>
+ 
+</body>
+</html>
